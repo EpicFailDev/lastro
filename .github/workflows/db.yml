@@ -1,0 +1,32 @@
+name: DB
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  db-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Start Supabase
+        run: pnpm supabase start
+
+      - name: Run database tests
+        run: pnpm supabase test db
+
+      - name: Stop Supabase
+        if: always()
+        run: pnpm supabase stop
