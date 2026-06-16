@@ -10,9 +10,17 @@ export function makeFakeClient(opts: {
   const rpcCalls: FakeRpcCall[] = [];
   const client = {
     from(table: string) {
-      return {
-        select: () => Promise.resolve({ data: opts.tables?.[table] ?? [], error: null }),
+      const data = opts.tables?.[table] ?? [];
+      const builder: Record<string, unknown> = {
+        select: () => builder,
+        order: () => builder,
+        eq: () => builder,
+        gte: () => builder,
+        lte: () => builder,
+        then: (resolve: (v: { data: unknown[]; error: null }) => unknown) =>
+          resolve({ data, error: null }),
       };
+      return builder;
     },
     rpc(fn: string, args: Record<string, unknown>) {
       rpcCalls.push({ fn, args });
