@@ -27,4 +27,11 @@ describe('parseOfx', () => {
   it('usa o dedupHash determinístico', () => {
     expect(parseOfx(sample).transactions[0]?.dedupHash).toMatch(/^[0-9a-f]{8}$/);
   });
+
+  it('extrai FITID como externalId', () => {
+    const ofx =
+      '<OFX><STMTTRN><DTPOSTED>20260602<TRNAMT>15.00' +
+      '<FITID>6a1ed812-0057-447a-ac58-b9bb4ce35866<MEMO>Pix</STMTTRN></OFX>';
+    expect(parseOfx(ofx).transactions[0]?.externalId).toBe('6a1ed812-0057-447a-ac58-b9bb4ce35866');
+  });
 });

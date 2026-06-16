@@ -26,11 +26,13 @@ export function parseOfx(content: string): ImportResult {
     const occurredAt = ofxDate(dtposted);
     const amountCents = parseAmountToCents(trnamt, '.');
     const description = (tag(block, 'MEMO') ?? tag(block, 'NAME') ?? '').trim();
+    const externalId = tag(block, 'FITID');
     return {
       occurredAt,
       amountCents,
       description,
       dedupHash: makeDedupHash({ occurredAt, amountCents, description }),
+      externalId,
     };
   });
 

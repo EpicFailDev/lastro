@@ -42,4 +42,10 @@ describe('parseCsv', () => {
     const content = 'Data,Outra,Descrição\n05/02/2026,"-1,00",A\n';
     expect(() => parseCsv(content, template)).toThrow(/Valor/);
   });
+
+  it('extrai a coluna de identificador como externalId', () => {
+    const t = { ...template, delimiter: ',', decimalSeparator: '.' as const, idColumn: 'Id' };
+    const content = 'Data,Valor,Id,Descrição\n02/06/2026,15.00,uuid-1,Pix\n';
+    expect(parseCsv(content, t).transactions[0]?.externalId).toBe('uuid-1');
+  });
 });
