@@ -1,5 +1,5 @@
 begin;
-select plan(4);
+select plan(5);
 
 -- Usuário + conta de teste.
 insert into auth.users (id, email)
@@ -46,6 +46,13 @@ select throws_ok(
        '00000000-0000-0000-0000-0000000000c2', 'csv', 'ruim.csv',
        '[{"amount_cents":null,"description":"X","occurred_at":"2026-05-03","dedup_hash":"h3","category_id":null}]'::jsonb
      ) $$
+);
+
+-- Atomicidade: o import da chamada que falhou NÃO foi gravado (rollback total).
+select is(
+  (select count(*)::int from public.imports
+   where user_id = '00000000-0000-0000-0000-0000000000c1'),
+  2, 'chamada que falhou não deixa import órfão (2 imports das 2 chamadas bem-sucedidas)'
 );
 
 select * from finish();

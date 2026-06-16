@@ -47,9 +47,6 @@ importers:
       '@lastro/categorizer':
         specifier: workspace:*
         version: link:../categorizer
-      '@lastro/importers':
-        specifier: workspace:*
-        version: link:../importers
       '@lastro/shared':
         specifier: workspace:*
         version: link:../shared

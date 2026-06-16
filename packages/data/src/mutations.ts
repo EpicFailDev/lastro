@@ -7,6 +7,7 @@ import { dataKeys } from './keys';
 import type {
   Account,
   Category,
+  CategoryRuleRow,
   CommitImportInput,
   CommitImportResult,
   NewAccount,
@@ -94,13 +95,13 @@ export const deleteTransactionMutation = (c: DataClient, qc: QueryClient) =>
 
 export const createRuleMutation = (c: DataClient, qc: QueryClient) =>
   mutationOptions({
-    mutationFn: async (input: NewRule) =>
+    mutationFn: async (input: NewRule): Promise<CategoryRuleRow> =>
       unwrap(
         await (c
           .from('category_rules')
           .insert(input as never)
           .select()
-          .single() as unknown as VoidResult),
+          .single() as unknown as SingleResult<CategoryRuleRow>),
       ),
     onSuccess: () => qc.invalidateQueries({ queryKey: dataKeys.rules() }),
   });

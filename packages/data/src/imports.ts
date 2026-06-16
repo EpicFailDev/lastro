@@ -37,6 +37,7 @@ export async function commitImport(
         ]
       : [];
   });
+  // Regras do usuário antes das semente: em empate de peso, a regra do usuário vence (categorize ordena por peso desc).
   const rules = [...userRules, ...defaultRules];
 
   const items = parsed.transactions.map((t) => {
@@ -50,6 +51,7 @@ export async function commitImport(
     };
   });
 
+  // commit_import já está nos tipos gerados; o cast cobre divergências de overload do supabase-js para RPC.
   const res = await c.rpc('commit_import', {
     p_account_id: parsed.accountId,
     p_format: parsed.format,
