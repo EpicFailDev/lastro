@@ -14,4 +14,7 @@ describe('parseStatementDate', () => {
   it('data inválida lança erro', () => {
     expect(() => parseStatementDate('xx/yy/zzzz', 'dd/mm/yyyy')).toThrow();
   });
+  it('parseia dd-mm-yyyy (Mercado Pago)', () => {
+    expect(parseStatementDate('02-06-2026', 'dd-mm-yyyy')).toBe('2026-06-02');
+  });
 });

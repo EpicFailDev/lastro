@@ -16,13 +16,15 @@ export const importResultSchema = z.object({
 });
 export type ImportResult = z.infer<typeof importResultSchema>;
 
+export type DateFormat = 'dd/mm/yyyy' | 'yyyy-mm-dd' | 'dd-mm-yyyy';
+
 export type CsvTemplate = {
   name: string;
   delimiter?: string;
   dateColumn: string;
   amountColumn: string;
   descriptionColumn: string;
-  dateFormat: 'dd/mm/yyyy' | 'yyyy-mm-dd';
+  dateFormat: DateFormat;
   decimalSeparator: ',' | '.';
   invertSign?: boolean;
   idColumn?: string;
