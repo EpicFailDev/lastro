@@ -22,7 +22,12 @@ describe('commitImport', () => {
       format: 'csv',
       fileName: 'extrato.csv',
       transactions: [
-        { occurredAt: '2026-05-01', amountCents: -1500, description: 'UBER *TRIP', dedupHash: 'h1' },
+        {
+          occurredAt: '2026-05-01',
+          amountCents: -1500,
+          description: 'UBER *TRIP',
+          dedupHash: 'h1',
+        },
         { occurredAt: '2026-05-02', amountCents: -3000, description: 'SUSHI BAR', dedupHash: 'h2' },
       ],
     });
@@ -30,7 +35,10 @@ describe('commitImport', () => {
     expect(result).toEqual({ importId: 'imp-1', inserted: 2, duplicates: 0 });
     expect(rpcCalls).toHaveLength(1);
     expect(rpcCalls[0]!.fn).toBe('commit_import');
-    const items = rpcCalls[0]!.args.p_items as Array<{ dedup_hash: string; category_id: string | null }>;
+    const items = rpcCalls[0]!.args.p_items as Array<{
+      dedup_hash: string;
+      category_id: string | null;
+    }>;
     expect(items.find((i) => i.dedup_hash === 'h1')!.category_id).toBe('cat-transporte');
     expect(items.find((i) => i.dedup_hash === 'h2')!.category_id).toBe('cat-alimentacao');
   });
@@ -44,7 +52,12 @@ describe('commitImport', () => {
       accountId: ACCOUNT,
       format: 'csv',
       transactions: [
-        { occurredAt: '2026-05-01', amountCents: -100, description: 'XYZ DESCONHECIDO', dedupHash: 'h9' },
+        {
+          occurredAt: '2026-05-01',
+          amountCents: -100,
+          description: 'XYZ DESCONHECIDO',
+          dedupHash: 'h9',
+        },
       ],
     });
     const items = rpcCalls[0]!.args.p_items as Array<{ category_id: string | null }>;

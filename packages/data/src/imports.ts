@@ -1,11 +1,7 @@
 import { categorize, defaultRules, type CategoryRule } from '@lastro/categorizer';
 import type { DataClient } from './client';
 import { unwrap } from './errors';
-import {
-  commitImportInputSchema,
-  type CommitImportInput,
-  type CommitImportResult,
-} from './types';
+import { commitImportInputSchema, type CommitImportInput, type CommitImportResult } from './types';
 
 /** Importa um lote de transações: categoriza em TS e grava via RPC atômica. */
 export async function commitImport(
@@ -31,7 +27,14 @@ export async function commitImport(
   const userRules: CategoryRule[] = ruleRows.flatMap((r) => {
     const name = nameById.get(r.category_id);
     return name
-      ? [{ matchType: r.match_type as CategoryRule['matchType'], pattern: r.pattern, category: name, weight: r.weight }]
+      ? [
+          {
+            matchType: r.match_type as CategoryRule['matchType'],
+            pattern: r.pattern,
+            category: name,
+            weight: r.weight,
+          },
+        ]
       : [];
   });
   const rules = [...userRules, ...defaultRules];

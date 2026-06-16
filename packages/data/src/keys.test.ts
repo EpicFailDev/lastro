@@ -10,6 +10,9 @@ describe('dataKeys', () => {
 
   it('transactions sem filtro vs com filtro', () => {
     expect(dataKeys.transactions()).toEqual(['transactions']);
-    expect(dataKeys.transactions({ accountId: 'a1' })).toEqual(['transactions', { accountId: 'a1' }]);
+    expect(dataKeys.transactions({ accountId: 'a1' })).toEqual([
+      'transactions',
+      { accountId: 'a1' },
+    ]);
   });
 });

@@ -6,7 +6,5 @@ export const dataKeys = {
   categories: () => ['categories'] as const,
   rules: () => ['rules'] as const,
   transactions: (filter?: TransactionFilter) =>
-    filter === undefined
-      ? (['transactions'] as const)
-      : (['transactions', filter] as const),
+    filter === undefined ? (['transactions'] as const) : (['transactions', filter] as const),
 };

@@ -18,7 +18,9 @@ describe('mutations', () => {
     const res = await fn({
       accountId: '00000000-0000-0000-0000-0000000000c2',
       format: 'csv',
-      transactions: [{ occurredAt: '2026-05-01', amountCents: -100, description: 'X', dedupHash: 'h1' }],
+      transactions: [
+        { occurredAt: '2026-05-01', amountCents: -100, description: 'X', dedupHash: 'h1' },
+      ],
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onSuccess = opts.onSuccess as ((d: unknown, v: unknown, c: unknown) => void) | undefined;
@@ -35,6 +37,10 @@ describe('mutations', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fn2 = opts.mutationFn as (v: unknown) => Promise<void>;
     await fn2({ id: 't1', categoryId: 'cat-1' });
-    expect(updateCalls).toContainEqual({ table: 'transactions', values: { category_id: 'cat-1' }, eqId: 't1' });
+    expect(updateCalls).toContainEqual({
+      table: 'transactions',
+      values: { category_id: 'cat-1' },
+      eqId: 't1',
+    });
   });
 });

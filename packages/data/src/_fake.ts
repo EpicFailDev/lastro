@@ -3,10 +3,7 @@ import type { DataClient } from './client';
 export type FakeRpcCall = { fn: string; args: Record<string, unknown> };
 
 /** Fake mínimo de DataClient para testar orquestração sem banco. */
-export function makeFakeClient(opts: {
-  tables?: Record<string, unknown[]>;
-  rpcResult?: unknown;
-}): {
+export function makeFakeClient(opts: { tables?: Record<string, unknown[]>; rpcResult?: unknown }): {
   client: DataClient;
   rpcCalls: FakeRpcCall[];
   updateCalls: Array<{ table: string; values: Record<string, unknown>; eqId?: string }>;
