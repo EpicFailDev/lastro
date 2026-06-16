@@ -9,6 +9,9 @@ build/
 *.apk
 *.aab
 
+# Cache do Turborepo
+.turbo/
+
 # Ambiente / segredos
 .env
 .env.*
