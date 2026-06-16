@@ -1,0 +1,8 @@
+# Normaliza fins de linha: o repositório usa LF em tudo (evita ruído CRLF no Windows).
+* text=auto eol=lf
+
+# Arquivos binários: nunca normalizar.
+*.png binary
+*.jpg binary
+*.apk binary
+*.aab binary
