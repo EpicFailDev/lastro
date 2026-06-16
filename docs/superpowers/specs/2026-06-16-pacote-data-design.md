@@ -12,14 +12,17 @@ Entregar **`@lastro/data`**: o contrato único de *como o app fala com o banco*,
 1. **Funções de orquestração/consulta** com valor real (`commitImport`, filtros de transação,
    mapeamento de categoria). CRUD trivial **não** vira wrapper — usa o `supabase-js` direto no
    `queryFn`, sem cerimônia.
-2. **Fábrica de *query options* / *mutation options*** usando `@tanstack/query-core`
-   (que é **agnóstico de framework** — não é React). Define as **chaves de cache uma vez só**,
+2. **Fábrica de *query options* / *mutation options*** usando os helpers `queryOptions`/
+   `mutationOptions` do **`@tanstack/react-query`**. Define as **chaves de cache uma vez só**,
    compartilhadas entre Web e Mobile, sem duplicação.
 
-**Decisão de fronteira:** o pacote **não** importa `react` nem `@tanstack/react-query` — só o
-`query-core`. Os hooks (`useQuery(...)`) são triviais em Web/Mobile, passando os `queryOptions`
-prontos. Isso mantém o pacote testável em Node e elimina a duplicação de chaves/queryFns que
-existiria se cada cliente reimplementasse a camada.
+**Decisão de fronteira (verificada na doc oficial):** os helpers `queryOptions`/`mutationOptions`
+**não** existem em `@tanstack/query-core` — são exports dos adapters. Como **Web (React) e Mobile
+(React Native) usam o mesmo `@tanstack/react-query`** (não há adapter separado para RN), o pacote
+depende de `@tanstack/react-query` e declara `react` como **`peerDependency`** (fornecido pelos
+apps). Os hooks (`useQuery(...)`) são triviais em Web/Mobile, passando os options prontos.
+**As funções puras** (`queryFn`, `commitImport`, `keys`) **não importam TanStack** — ficam
+testáveis em Node isolado; só a fina camada de factory referencia `@tanstack/react-query`.
 
 ## 2. Cliente tipado
 
@@ -150,16 +153,18 @@ Ver armadilhas de Windows na memória de ambiente (pnpm no PATH, CRLF/LF, worktr
 ## 8. Dependências e configuração
 
 - **Workspace:** `@lastro/shared`, `@lastro/importers`, `@lastro/categorizer`.
-- **Externas:** `@supabase/supabase-js`, `@tanstack/query-core` (sem `react`).
+- **Externas:** `@supabase/supabase-js`, `@tanstack/react-query` (dep), `react` (`peerDependency`;
+  `react` + `@types/react` como `devDependency` para typecheck/test isolados do pacote).
 - **Schema:** nova migration `00NN_commit_import_fn.sql` (RPC) + teste pgTAP.
 - **Scripts:** novo `db:types` na raiz.
 
 ## 9. Riscos e decisões em aberto (resolver no plano)
 
-- **CI com Supabase:** confirmar se o job de DB do PR #2 já sobe Supabase para os testes de
-  integração/pgTAP, ou se precisa de passo novo. Fallback: separar unitários (sempre rodam) dos
-  de integração (gated por disponibilidade do banco).
+- **CI com Supabase (resolvido):** o workflow **DB** já sobe Supabase e roda `supabase test db`
+  (pgTAP). O job **verify** (lint/typecheck/test) **não** sobe Supabase. Decisão: a confiança do
+  banco para a RPC vem do **pgTAP** (roda no CI); os testes Node de integração ficam **gated/locais**
+  (pulam quando não há `SUPABASE_URL` no ambiente); os **unitários com fake** sempre rodam no verify.
 - **`database.types.ts` versionado:** commitado para consumidores fazerem typecheck sem Docker;
   regerado via `db:types` quando o schema mudar (a nova RPC entra nos tipos).
-- **`mutationOptions` no query-core:** confirmar a API estável no `@tanstack/query-core` da
-  versão fixada; se necessário, expor um objeto de config simples em vez do helper.
+- **`mutationOptions` (resolvido):** confirmado como export estável do `@tanstack/react-query`
+  (não do `query-core`). Usar de lá; `react` como `peerDependency`.
