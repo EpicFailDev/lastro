@@ -260,7 +260,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      commit_import: {
+        Args: {
+          p_account_id: string
+          p_file_name: string
+          p_format: string
+          p_items: Json
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
