@@ -145,8 +145,8 @@ A UI referencia **sempre** o papel, nunca o primitivo. Conjunto idêntico de cha
 | `bg.subtle` | neutral-100 `#EEF2F2` | neutral-800 `#222A2A` |
 | `border` | neutral-200 `#DDE4E4` | neutral-700 `#364040` |
 | `text.primary` | neutral-900 `#141A1A` | neutral-50 `#F7F9F9` |
-| `text.muted` | neutral-500 `#6B7878` | neutral-400 `#95A3A3` |
-| `text.onAccent` | `#FFFFFF` | `#FFFFFF` |
+| `text.muted` | neutral-600 `#4C5757` | neutral-400 `#95A3A3` |
+| `text.onAccent` | neutral-900 `#141A1A` | neutral-900 `#141A1A` |
 | `brand` | teal-500 `#1F7A7D` | teal-300 `#6BB4B6` |
 | `accent` | coral-500 `#FF6B5A` | coral-400 `#FF7A6B` |
 | `accent.hover` | coral-600 `#E55444` | coral-500 `#FF6B5A` |
@@ -217,7 +217,7 @@ Mantendo a regra do projeto "contrato/lógica nasce com teste". Não há compone
 
 1. **Contraste WCAG AA** (`contrast.test.ts`):
    - `contrast.ts` implementa a razão de contraste por luminância relativa (fórmula WCAG 2.1).
-   - O teste exige **≥ 4.5:1** (texto normal) para os pares: `text.primary` e `text.muted` sobre `bg.surface`, `bg.canvas` e `bg.subtle`; e `text.onAccent` sobre `accent` — **nos dois temas**.
+   - O teste exige **≥ 4.5:1** (texto normal) para os pares: `text.primary` e `text.muted` sobre `bg.surface`, `bg.canvas` e `bg.subtle`; e `text.onAccent` (texto escuro) sobre `accent` — **nos dois temas**.
    - Componentes monetários: `amount.positive`/`amount.negative` sobre `bg.surface` exigem ≥ 3:1 (texto grande/realce). Pega regressão de cor que machuca acessibilidade.
 
 2. **Integridade de tokens** (`tokens.test.ts`):
