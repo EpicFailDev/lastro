@@ -16,11 +16,13 @@
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
-    "db:test": "supabase test db"
+    "db:test": "supabase test db",
+    "db:types": "cross-env SUPABASE_ACCESS_TOKEN=local supabase gen types --local > packages/data/src/database.types.ts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
+    "cross-env": "^10.1.0",
     "eslint": "^8.57.0",
     "prettier": "^3.3.0",
     "supabase": "^2.106.0",
