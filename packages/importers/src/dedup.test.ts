@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { makeDedupHash } from './dedup';
+import { makeDedupHash, dedupKey } from './dedup';
 
 describe('makeDedupHash', () => {
   const base = { occurredAt: '2026-02-05', amountCents: -1500, description: 'iFood' };
@@ -15,5 +15,14 @@ describe('makeDedupHash', () => {
   });
   it('muda se a data muda', () => {
     expect(makeDedupHash(base)).not.toBe(makeDedupHash({ ...base, occurredAt: '2026-02-06' }));
+  });
+});
+
+describe('dedupKey', () => {
+  it('prioriza externalId quando presente', () => {
+    expect(dedupKey({ externalId: 'abc-123', dedupHash: 'deadbeef' })).toBe('ext:abc-123');
+  });
+  it('cai no hash quando não há externalId', () => {
+    expect(dedupKey({ dedupHash: 'deadbeef' })).toBe('hash:deadbeef');
   });
 });

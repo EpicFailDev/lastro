@@ -21,3 +21,8 @@ export function makeDedupHash(t: {
 }): string {
   return fnv1a(`${t.occurredAt}|${t.amountCents}|${normalize(t.description)}`);
 }
+
+/** Chave de deduplicação lógica: prioriza o identificador externo (FITID/Identificador). */
+export function dedupKey(t: { externalId?: string; dedupHash: string }): string {
+  return t.externalId ? `ext:${t.externalId}` : `hash:${t.dedupHash}`;
+}

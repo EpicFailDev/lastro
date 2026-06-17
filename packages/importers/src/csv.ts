@@ -22,11 +22,13 @@ export function parseCsv(content: string, template: CsvTemplate): ImportResult {
     let amountCents = parseAmountToCents(row[template.amountColumn]!, template.decimalSeparator);
     if (template.invertSign) amountCents = -amountCents;
     const description = (row[template.descriptionColumn] ?? '').trim();
+    const externalId = template.idColumn ? row[template.idColumn]?.trim() || undefined : undefined;
     return {
       occurredAt,
       amountCents,
       description,
       dedupHash: makeDedupHash({ occurredAt, amountCents, description }),
+      externalId,
     };
   });
 

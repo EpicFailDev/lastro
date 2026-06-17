@@ -5,6 +5,7 @@ export const parsedTransactionSchema = z.object({
   amountCents: z.number().int(),
   description: z.string(),
   dedupHash: z.string().min(1),
+  externalId: z.string().min(1).optional(),
 });
 export type ParsedTransaction = z.infer<typeof parsedTransactionSchema>;
 
@@ -15,13 +16,16 @@ export const importResultSchema = z.object({
 });
 export type ImportResult = z.infer<typeof importResultSchema>;
 
+export type DateFormat = 'dd/mm/yyyy' | 'yyyy-mm-dd' | 'dd-mm-yyyy';
+
 export type CsvTemplate = {
   name: string;
   delimiter?: string;
   dateColumn: string;
   amountColumn: string;
   descriptionColumn: string;
-  dateFormat: 'dd/mm/yyyy' | 'yyyy-mm-dd';
+  dateFormat: DateFormat;
   decimalSeparator: ',' | '.';
   invertSign?: boolean;
+  idColumn?: string;
 };
