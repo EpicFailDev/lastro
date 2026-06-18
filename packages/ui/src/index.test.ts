@@ -17,7 +17,13 @@ describe('API pública @lastro/ui', () => {
 const requireCjs = createRequire(import.meta.url);
 const preset = requireCjs('../tailwind-preset.cjs') as {
   darkMode: string;
-  theme: { extend: { colors: Record<string, string>; borderRadius: Record<string, string>; boxShadow: Record<string, string> } };
+  theme: {
+    extend: {
+      colors: Record<string, string>;
+      borderRadius: Record<string, string>;
+      boxShadow: Record<string, string>;
+    };
+  };
 };
 
 describe('tailwind-preset', () => {
@@ -30,8 +36,9 @@ describe('tailwind-preset', () => {
 
   it('toda var de cor do preset existe nas css-vars geradas', () => {
     const generated = themeCssVars(semantic.light); // nomes '--xxx'
-    const used = Object.values(preset.theme.extend.colors)
-      .map((v) => String(v).replace(/^var\((--[^)]+)\)$/, '$1'));
+    const used = Object.values(preset.theme.extend.colors).map((v) =>
+      String(v).replace(/^var\((--[^)]+)\)$/, '$1'),
+    );
     for (const name of used) expect(generated[name]).toBeDefined();
   });
 });

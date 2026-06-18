@@ -10,11 +10,7 @@ function relativeLuminance(hex: string): number {
   const r = (int >> 16) & 0xff;
   const g = (int >> 8) & 0xff;
   const b = int & 0xff;
-  return (
-    0.2126 * channelLuminance(r) +
-    0.7152 * channelLuminance(g) +
-    0.0722 * channelLuminance(b)
-  );
+  return 0.2126 * channelLuminance(r) + 0.7152 * channelLuminance(g) + 0.0722 * channelLuminance(b);
 }
 
 export function contrastRatio(fg: string, bg: string): number {
