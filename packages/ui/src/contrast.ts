@@ -5,7 +5,7 @@ function channelLuminance(c: number): number {
 
 function relativeLuminance(hex: string): number {
   const m = /^#([0-9a-fA-F]{6})$/.exec(hex);
-  if (!m) throw new Error(`Hex inválido: ${hex}`);
+  if (!m || m[1] === undefined) throw new Error(`Hex inválido: ${hex}`);
   const int = parseInt(m[1], 16);
   const r = (int >> 16) & 0xff;
   const g = (int >> 8) & 0xff;
