@@ -34,7 +34,7 @@ const light: SemanticTokens = {
 
 const dark: SemanticTokens = {
   'bg.canvas': color.neutral['900'],
-  'bg.surface': '#1C2424',
+  'bg.surface': '#1C2424', // dark surface intencional entre neutral-800/-900 — único hex literal
   'bg.subtle': color.neutral['800'],
   border: color.neutral['700'],
   'text.primary': color.neutral['50'],
