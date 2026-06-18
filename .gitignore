@@ -34,3 +34,4 @@ Thumbs.db
 
 # Worktrees isolados (convenção pessoal)
 .worktrees/
+/.claude
